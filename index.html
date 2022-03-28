@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Desafio Final</title>
+</head>
+<body>
+    <meta charset="UTF-8">
+
+    <canvas width="600" height="400"></canvas>
+
+    <script>
+
+        function desenhaQuadrado(x, y, tamanho, cor) {
+
+            context.fillStyle = cor;
+            context.fillRect(x, y, tamanho, tamanho)
+            context.fill();
+        }
+
+        function desenhaCirculo(x, y, raio, cor) {
+
+            context.fillStyle = cor;
+            context.beginPath();
+            context.arc(x, y, raio, 0, 2 * 3.14);
+            context.fill();
+
+        }
+
+        function desenhaPaletaDeCores() {
+
+            desenhaQuadrado(xVermelho, yQuadrados, tamanhoQuadrados, 'red');
+            desenhaQuadrado(xVerde, yQuadrados, tamanhoQuadrados, 'green');
+            desenhaQuadrado(xAzul, yQuadrados, tamanhoQuadrados, 'blue');
+
+        }
+
+        function lidaComMovimentoDoMouse(evento) {
+
+            x = evento.pageX - canvas.offsetLeft;
+            y = evento.pageY - canvas.offsetTop;
+
+            if (desenha && !((x - 5 <= tamanhoQuadrados*3) && (y - 5 <= tamanhoQuadrados))) {                
+                desenhaCirculo(x, y, 5, corAtual);
+            }
+        }
+
+        function habilitaDesenhar() {
+
+            desenha = true;
+        }
+
+        function desabilitaDesenhar() {
+
+            desenha = false;
+        }
+
+        var canvas = document.querySelector('canvas');
+        var context = canvas.getContext('2d');
+
+        context.fillStyle = 'lightgray';
+        context.fillRect(0, 0, 600, 400);
+
+        var desenha = false;
+        var corAtual = 'blue';
+
+        var x;
+        var y;
+
+        var xVermelho = 0;
+        var xVerde = 50;
+        var xAzul = 100;
+
+        var yQuadrados = 0;
+        var tamanhoQuadrados = 50;
+        var areaPaletaDeCores = 150
+
+        desenhaPaletaDeCores(); // mostra os quadrados de seleção de cores
+
+        canvas.onmousemove = lidaComMovimentoDoMouse;
+
+        canvas.onmousedown = habilitaDesenhar;
+
+        canvas.onmouseup = desabilitaDesenhar;
+
+        function trocaCor() {
+            if (x <= tamanhoQuadrados && y <= tamanhoQuadrados) {
+                corAtual = 'red'
+            } else if (x <= (tamanhoQuadrados * 2) && y <= tamanhoQuadrados) {
+                corAtual = 'green'
+            } else if (x <= (tamanhoQuadrados * 3) && y <= tamanhoQuadrados) {
+                corAtual = 'blue'
+            }
+        }
+
+        canvas.addEventListener('click', trocaCor)
+
+    </script>
+</body>
+
+</html>
